@@ -21,7 +21,7 @@ app.get('/api/mes',async (req,res)=>{
     var ref = db.collection('data');
     const snapshot = await db.collection("data").orderBy('timestamp','desc').limit(10).get();
     const Minlist = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data()}));
-    Minlist.reverse()
+    // Minlist.reverse()
     res.send(Minlist);
   }catch(error){
     console.error("Error getting data to Firestore:", error);
