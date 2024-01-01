@@ -15,6 +15,20 @@ admin.initializeApp({
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get('/api/mes',async (req,res)=>{
+  try{
+    const db = admin.firestore();
+    var ref = db.collection('data');
+    const snapshot = await db.collection("data").orderBy('timestamp','desc').limit(10).get();
+    const Minlist = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data()}));
+    Minlist.reverse()
+    res.send(Minlist);
+  }catch(error){
+    console.error("Error getting data to Firestore:", error);
+    res.status(500).json({ error: 'Failed to get data to Firestore' });
+  }
+})
+
 app.post('/api/data', async (req, res) => {
   try {
     const db = admin.firestore();
