@@ -14,6 +14,15 @@ admin.initializeApp({
 // 中間件
 app.use(cors());
 app.use(bodyParser.json());
+app.post('/api/hello', async (req, res) => {
+  try {
+    const { name } = req.body;
+    res.status(200).json({ message: `Hello ${name}!` });
+  } catch (error) {
+    console.error("Error adding data to Firestore:", error);
+    res.status(500).json({ error: 'Failed to push data to Firestore' });
+  }
+});
 
 app.get('/api/mes',async (req,res)=>{
   try{
